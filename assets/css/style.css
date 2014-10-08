@@ -1,0 +1,13 @@
+body{
+text-align:center;
+}
+
+.bilan_file{
+cursor:pointer;
+}
+
+p#rule{
+margin:auto;
+text-align:left;
+width:800px;
+}
