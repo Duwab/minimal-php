@@ -5,7 +5,11 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css" media="screen" /> 
 </head>
 <body>
-<?php 
+<?php
+if($DEV_MODE)
+{
+	echo '<br> user id = ' . $user->id .'<br>';
+}
 include($PATH . $body . '.php');
 ?>
 </body>
