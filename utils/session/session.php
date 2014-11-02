@@ -75,7 +75,6 @@ sinon si pas session
 		}else if(isset($_POST['logout']))
 		{
 			DEBUG('_POST[logout] is set');
-			echo 'logout is set';
 			$this->logout();
 		}else if(isset($_SESSION["user_id"]))
 		{

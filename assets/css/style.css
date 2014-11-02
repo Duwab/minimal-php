@@ -2,12 +2,13 @@ body{
 text-align:center;
 }
 
-.bilan_file{
-cursor:pointer;
+i{
+	background-image:url(/assets/img/boot-sprite.png);
+	width: 13px;
+	height: 13px;
+	display: inline-block;
 }
 
-p#rule{
-margin:auto;
-text-align:left;
-width:800px;
+.i_download{
+	background-position: -97px -24px;
 }

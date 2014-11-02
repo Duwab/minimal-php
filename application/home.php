@@ -1,4 +1,4 @@
-<a href="/bilan">Bilan</a>
+<a href="/profile">Profile</a>
 <?php
 	if(isset($name))
 		echo $name;
