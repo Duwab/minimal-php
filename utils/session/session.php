@@ -1,38 +1,6 @@
 <?php
 //http://phppot.com/php/php-login-script-with-session/
 //http://www.w3schools.com/php/php_sessions.asp
-
-/* 
-
-routes: login et logout
-
-fonctions dans session manager
-
-start session
-if login / password,
-	logout,
-	vérifier
-	si oui
-		set session
-		set cookie
-		set userId
-
-si session
-	set userId
-	refresh cookie
-sinon si pas session
-	si cookie
-		check
-		si mauvais
-			logout
-		si bon
-			set session
-			set userId
-			refresh cookie
-		
-		
-
- */
  
  class Session {
  
@@ -66,7 +34,7 @@ sinon si pas session
 			if(isset($result[0]))
 			{
 				$this->login($result[0]);
-				header("Location:profile");
+				header("Location:/");
 			}
 			else
 			{
@@ -75,7 +43,6 @@ sinon si pas session
 		}else if(isset($_POST['logout']))
 		{
 			DEBUG('_POST[logout] is set');
-			echo 'logout is set';
 			$this->logout();
 		}else if(isset($_SESSION["user_id"]))
 		{

@@ -8,6 +8,7 @@ $CONF = array(
 		"password"	=> "secretpassword"
 	),
 	"session_lifetime" => 3600,
-	"cookie_lifetime" => 3600 * 24 * 31
+	"cookie_lifetime" => 3600 * 24 * 31,
+	"folders" => array("files", "/home/user/files_folder")
 );
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 $DEBUG_ON = false;
-$DEV_MODE = true;
+$DEV_MODE = false;
 $PATH = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
 
 include('utils/error.php');
