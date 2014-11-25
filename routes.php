@@ -15,6 +15,8 @@ if($uri_exp[1] == 'logout')
 	Response::$body = "utils/session/logout";
 if($uri_exp[1] == 'recover')
 	Response::$body = "utils/session/recover";
+if($uri_exp[1] == 'upload')
+	Response::$body = "application/upload";
 if(in_array($uri_exp[1], array('file', 'stream')) && isset($_GET['path']))
 {
 	foreach($CONF['folders'] as $folder)

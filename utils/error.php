@@ -9,7 +9,7 @@ function error_handler($errno, $errstr, $errfile, $errline){
 	die();
 }
 
-set_error_handler (error_handler);
+// set_error_handler (error_handler);
 
 $DEBUG_LIST = array();
 

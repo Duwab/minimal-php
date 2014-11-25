@@ -32,7 +32,8 @@ function dirToArray($dir, $prefix = '') {
       { 
          if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) 
          { 
-            $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR ); 
+            // $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR );
+			$result = array_merge($result, dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR ));
          } 
          else 
          { 
@@ -52,6 +53,12 @@ if($user->id == 0){
 	foreach($CONF['folders'] as $folder)
 	{
 		$files = array_merge($files, dirToArray($folder, $folder . '/'));
+	}
+	
+	if($user->profile['name'] == 'antoine' && isset($_GET['full']))
+	{
+		$files = array_merge($files, dirToArray('/home/admin/movies', '/home/admin/movies/'));
+		// echo json_encode(dirToArray('/home/admin/movies', '/home/admin/movies/'));
 	}
 	
 	if(sizeof($files) > 0)
@@ -82,7 +89,12 @@ if($user->id == 0){
 						echo '<td>' . $name . '</td>';
 						echo '<td>' . $size . '</td>';
 						echo '<td><a href="/file?path=' . urlencode($file) . '"><i class="i_download"></i></a></td>';
-						echo '<td><a href="/stream?path=' . urlencode($file) . '" target="_blank"><i class="i_stream"></i></a></td>';
+						$finfo = finfo_open(FILEINFO_MIME_TYPE);
+						$mime_type = finfo_file($finfo, $file);
+						if(preg_match('/(audio|video)/', $mime_type))
+							echo '<td><a href="/stream?path=' . urlencode($file) . '" target="_blank"><i class="i_stream"></i></a></td>';
+						else
+							echo '<td></td>';
 						echo '</tr>';
 					}catch(Exception $e){
 						echo '<tr>unable to read </tr>';

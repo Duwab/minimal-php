@@ -1,5 +1,11 @@
 <?php
 
+/* 
+ini_set('upload_max_filesize', '20000000M');
+ini_set('post_max_size', '20000000M');
+ini_set('max_input_time', 3000000000);
+ini_set('max_execution_time', 3000000000); */
+
 $DEBUG_ON = false;
 $DEV_MODE = false;
 $PATH = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
