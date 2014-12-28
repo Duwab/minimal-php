@@ -48,12 +48,33 @@ function dirToArray($dir, $prefix = '') {
 if($user->id == 0){
 	echo 'Rien, pour le moment';
 }else{
-	//TODO : scan recursif, et si rôle, alors scan de deluge, dossier perso, tout > lister par rôle les fichiers
+	//on prend tous les fichiers dans authorization  +  le dossier perso
+	$res = DB::query("SELECT * FROM authorization WHERE id_user = '" . $user->id . "' ORDER BY priority DESC, id DESC");
+	$authorizations = $res->fetchAll();
+	
 	$files = array();
-	foreach($CONF['folders'] as $folder)
+	$i = 0;
+	while(isset($authorizations[$i]))
+	{
+		$item = $authorizations[$i];
+		$path = $item['path'];
+		if($item['type'] == 'D')
+		{
+			$files = array_merge($files, dirToArray($path, $path . '/'));
+		}else
+		{
+			if(file_exists($path))
+				$files[] = $path;
+		}
+		$i++;
+	}
+	
+	/*foreach($CONF['folders'] as $folder)
 	{
 		$files = array_merge($files, dirToArray($folder, $folder . '/'));
-	}
+	}*/
+	
+	$files = array_merge($files, dirToArray('files/' . $user->profile['name'], 'files/' . $user->profile['name'] . '/'));
 	
 	if($user->profile['name'] == 'antoine' && isset($_GET['full']))
 	{

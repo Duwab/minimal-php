@@ -20,7 +20,7 @@ class DB {
 	}
 	public static function protect($string){
 		// TODO : add pro
-		if(preg_match('/^\w*$/', $string))
+		if(preg_match('/^(\w|-|_)*$/', $string))
 			return $string;
 		else
 		{

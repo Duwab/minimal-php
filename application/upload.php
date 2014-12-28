@@ -11,7 +11,7 @@ function outputJSON($msg, $status = 'error'){
 
 
 // Check for errors
-if($user->id == 0){
+if($user->id != 1){
     outputJSON('you shall be logged in');
 }
 
@@ -34,17 +34,17 @@ if($_FILES['SelectedFile']['size'] > 5000000000000){
 }
 
 // Check if the file exists
-if(file_exists('upload/' . $_FILES['SelectedFile']['name'])){
+if(file_exists($user->profile['name'] . '/' . $_FILES['SelectedFile']['name'])){
     outputJSON('File with that name already exists.');
 }
 $encode = json_encode(scandir("/tmp")[3]);
 $tmp = $_FILES['SelectedFile']['tmp_name'];
 $new = $_FILES['SelectedFile']['name'];
 // Upload file
-if(!move_uploaded_file($_FILES['SelectedFile']['tmp_name'], '/home/www/transfer/files/upload/' . $_FILES['SelectedFile']['name'])){
+if(!move_uploaded_file($_FILES['SelectedFile']['tmp_name'], '/home/www/transfer/files/' . $user->profile['name'] . '/' . $_FILES['SelectedFile']['name'])){
 // if(!rename($_FILES['SelectedFile']['tmp_name'], '/home/www/transfer/files/upload/' . $_FILES['SelectedFile']['name'])){
     outputJSON('Error uploading file - check destination is writeable.' . $encode);
 }
 
 // Success!
-outputJSON('File uploaded successfully to "' . 'upload/' . $tmp . ' | ' . $_FILES['SelectedFile']['name'] . '".', 'success');
+outputJSON('File uploaded successfully to "' . 'upload/' . $user->profile['name'] . '/' . $tmp . ' | ' . $_FILES['SelectedFile']['name'] . '".', 'success');

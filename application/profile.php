@@ -7,7 +7,7 @@ You are actually logged as :
 ?>
 
 <h2>Upload</h2>
-<p>Here the future feature</p>
+<p>The following buttons allow you to upload anything you want. Actually open the console for watching the logs</p>
 
 <div class='container'>
 	<p>
@@ -49,8 +49,8 @@ $(document).on('ready', function(){
 		};
 
 		request.upload.addEventListener('progress', function(e){
-			_progress.style.width = Math.ceil(e.loaded/e.total) * 100 + '%';
-			console.log(Math.ceil(e.loaded/e.total* 100)  + '%');
+			_progress.style.width = Math.ceil(e.loaded/e.total * 100) + '%';
+			console.log(Math.ceil(e.loaded/e.total* 100)  + '% of ' + e.total);
 		}, false);
 
 		request.open('POST', '/upload');
