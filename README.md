@@ -15,3 +15,14 @@ Apache Config:
                 AllowOverride all
         </Directory>
 </VirtualHost>
+
+
+to create a new branch:
+git clone https://github.com/Duwab/minimal-php.git folder_name;
+cd folder_name;
+git branch branch_name;
+git checkout branch_name;
+git push origin branch_name;
+git branch --set-upstream-to=origin/branch_name branch_name
+
+Start to develop!
