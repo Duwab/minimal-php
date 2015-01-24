@@ -1,5 +1,6 @@
-body{
+html, body{
 text-align:center;
+background-color: #FFF;
 }
 
 i{
@@ -11,4 +12,137 @@ i{
 
 .i_download{
 	background-position: -97px -24px;
+}
+
+.container{
+	display: block;
+	margin: 50px 380px 80px 0;
+	min-height: 100%;
+	/* color: white; */
+	width: auto;
+}
+
+header{
+	position:fixed;
+	top:0;
+	left: 0;
+	right:0;
+	height:50px;
+	background: #DDD;
+}
+
+.header_logo{
+	float: left;
+	margin: 8px 30px;
+	font-size: 23px;
+	font-weight: bold;
+	color: #000;
+	font-family: sans-serif;
+	font-style: italic;
+}
+.header_logo img{
+	vertical-align: top;
+	margin: 1px 6px 0 0;
+}
+
+.playlist_folder{
+	border: 1px solid #999;
+	padding: 20px;
+	margin: 20px;
+	display: inline-block;
+	cursor: pointer;
+}
+.playlist_folder img{
+	display: block;
+}
+.playlist_folder span{
+	display: block;
+	margin-top: 16px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+/*
+
+	Player
+	
+*/
+.jp-gui.jp-interface{
+	position: fixed;
+	bottom: 0;
+	height: 80px;
+}
+.jp-playlist{
+	position: fixed;
+	top: 50px;
+	right: 0;
+	bottom: 80px;
+	overflow-y: scroll;
+	width: 380px;
+	background: #EEE;
+	border: none;
+}
+.jp-audio .jp-controls{
+	float: left;
+	width: auto;
+}
+.jp-controls-holder{
+	width: 800px;
+	top: 0;
+}
+.jp-audio .jp-type-single .jp-toggles{
+	width: auto;
+}
+.jp-audio .jp-type-single .jp-progress {
+	left: 163px;
+}
+.jp-volume-controls {
+	left: 392px;
+}
+.jp-current-time, .jp-duration, .jp-progress, .jp-volume-controls, .jp-toggles{
+	margin: 30px 5px 0 0;
+	float: left;
+	position: relative !important;
+	top: auto !important;
+	left: auto !important;
+}
+.jp-playlist-current{
+	background: #DED;
+	font-weight: bold;
+}
+.jp-shuffle,.jp-repeat{
+	float: left;
+	position: relative;
+}
+/* .jp-controls-holder{
+	width: 100%;
+	text-align: left;
+}
+.jp-volume-controls, .jp-current-time, .jp-progress, .jp-duration, .jp-controls,.jp-current-time,.jp-toggles{
+	position: relative !important;
+	display: inline-block;
+	vertical-align: top;
+	float: none ! important;
+} */
+.jp-playlist li {
+	padding: 5px 0 4px 20px;
+	border-bottom: 1px solid #DDD;
+	position: relative;
+}
+.jp-playlist-item-remove{
+	position: absolute;
+	top:0px;
+	right: 0;
+	bottom: 0;
+	font-size: 18px;
+}
+.jp-playlist-item{
+	width: 94%;
+	color: #666;
+	text-align: left;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
