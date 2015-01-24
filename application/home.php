@@ -45,6 +45,8 @@ foreach ($directories as $dname)
 	  playlistOptions: {
 		enableRemoveControls: true
 	  },
+	  preload: 'auto',
+	  loop: true,
 	  loopOnPrevious: false, //  If loop is active, the playlist will loop back to the end when executing previous()
 	  shuffleOnLoop: true, //  If loop and shuffle are active, the playlist will shuffle when executing next() on the last item
 	  enableRemoveControls: false, // Adds an x that allows user to remove songs from playlist
@@ -68,7 +70,7 @@ foreach ($directories as $dname)
 			console.log($(this).data('pname'));
 			myPlaylist.setPlaylist(playlists[$(this).data('pname')]);
 		});
-		$('.container').append(btn);
+		$('.container')[pname == 'Playlist' ? 'prepend' : 'append'](btn);
 	}
 	/* myPlaylist.add({
 	  title:"Your Face",
@@ -77,6 +79,17 @@ foreach ($directories as $dname)
 	  oga:"http://www.jplayer.org/audio/ogg/TSP-05-Your_face.ogg",
 	  // poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
 	}); */
+	$('#jquery_jplayer_N').bind($.jPlayer.event.play, function(){
+		$('.header_dancing').show();
+	});
+	$('#jquery_jplayer_N').bind($.jPlayer.event.pause, function(){
+		$('.header_dancing').hide();
+	});
+	var dance_id = 1;
+	var dance_names = ['empty.png', 'michael-jackson.gif', 'belly-dance.gif', 'smiley.gif', 'monkey.gif', 'penguin.gif'];
+	$('.header_dancing').on('click', function(){
+		$(this).attr('src', '/assets/img/dancing/' + dance_names[dance_id++%dance_names.length]);
+	});
  });
 </script>
 <div id="jquery_jplayer_N" class="jp-jplayer"></div>

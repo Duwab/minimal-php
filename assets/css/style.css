@@ -45,6 +45,20 @@ header{
 	margin: 1px 6px 0 0;
 }
 
+.header_dancing{
+	position:fixed;
+	top: 0px;
+	right: 30px;
+	height: 50px;
+	display: none;
+	cursor:pointer;
+}
+/* .header_dancing:hover{
+	position:fixed;
+	height:auto;
+	z-index:100;
+} */
+
 .playlist_folder{
 	border: 1px solid #999;
 	padding: 20px;
@@ -114,6 +128,9 @@ header{
 .jp-shuffle,.jp-repeat{
 	float: left;
 	position: relative;
+}
+.jp-stop{
+	margin-left: 0;
 }
 /* .jp-controls-holder{
 	width: 100%;

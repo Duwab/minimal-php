@@ -16,6 +16,7 @@
 	<div class="header_logo">
 		<img src="/assets/img/logo_mini.png" alt="Playlist">easy-play
 	</div>
+	<img class="header_dancing" src="/assets/img/dancing/empty.png"/>
 </header>
 <?php
 if($DEV_MODE)
