@@ -10,6 +10,9 @@
     <li>item 2</li>
     <li>item 3</li>
 </ul>
+<br><br>
+<h1>Demos</h1>
+<a href="/demos/breadcrumb.html">Breadcrumb</a>
 <script>
 $(document).on('ready', function(){
 	console.log('ready');
