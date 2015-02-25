@@ -1,5 +1,5 @@
 <?php
-function error_handler($errno, $errstr, $errfile, $errline){
+/*function error_handler($errno, $errstr, $errfile, $errline){
 	$body = "views/error";
 	include('views/template.php');
 	var_dump($errno);
@@ -9,7 +9,7 @@ function error_handler($errno, $errstr, $errfile, $errline){
 	die();
 }
 
-set_error_handler (error_handler);
+set_error_handler (error_handler);*/
 
 $DEBUG_LIST = array();
 
@@ -17,7 +17,7 @@ function DEBUG($obj){
 	
 	global $DEBUG_ON, $DEBUG_LIST;
 	
-	if($DEBUG_ON){
+	/* if($DEBUG_ON){
 		array_push($DEBUG_LIST, $obj);
 		try{
 			echo json_encode($obj);
@@ -25,5 +25,5 @@ function DEBUG($obj){
 			var_dump($obj);
 		}
 		echo '<br>';
-	}
+	} */
 }
