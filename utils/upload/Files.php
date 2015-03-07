@@ -65,4 +65,28 @@ class FILES{
 		}
 		return FILES::$path . "/" . $filename;
 	}
+	
+	private static function dirToArray($dir, $prefix = '') { 
+	   
+	   $result = array(); 
+
+	   $cdir = scandir($dir); 
+	   foreach ($cdir as $key => $value) 
+	   { 
+		  if (!in_array($value,array(".",".."))) 
+		  { 
+			 if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) 
+			 { 
+				// $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR );
+				$result = array_merge($result, dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR ));
+			 } 
+			 else 
+			 { 
+				$result[] = $prefix . $value; 
+			 } 
+		  } 
+	   } 
+	   
+	   return $result; 
+	}
 }

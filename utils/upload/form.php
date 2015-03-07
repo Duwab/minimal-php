@@ -5,6 +5,11 @@
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="/assets/css/upload/jquery.fileupload.css">
 <link rel="stylesheet" href="/assets/css/upload/jquery.fileupload-ui.css">
+<style>
+.glyphicon {
+	display: none ! important;
+}
+</style>
 	
 
 
