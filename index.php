@@ -16,7 +16,7 @@ include('utils/session/session.php');
 
 include('utils/response.php');
 
-include('utils/upload/Files.php');
+include('utils/upload/Files.php'); // File management = include Files.php + route /upload
 
 if(!isset($_SERVER['PATH_INFO']))
 	$uri_exp = array(NULL, NULL);

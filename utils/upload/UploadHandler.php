@@ -36,13 +36,15 @@ class UploadHandler
     );
     protected $image_objects = array();
     function __construct($options = null, $initialize = true, $error_messages = null) {
+		global $CONF;
         $this->response = array();
         $this->options = array(
 			/* XXX */
             'script_url' => $this->get_full_url(),
             // 'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/files/',
-            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/files/',
-            'upload_url' => $this->get_full_url().'/files/',
+            'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME'))."/".$CONF['files_path'],
+            // 'upload_url' => $this->get_full_url().'/files/',
+            'upload_url' => '/file/',
             'user_dirs' => false,
             'mkdir_mode' => 0755,
             'param_name' => 'files',

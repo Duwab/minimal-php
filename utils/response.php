@@ -17,6 +17,11 @@ class Response {
 		exit();
 	}
 	
+	public static function error($number = 400, $message = ""){
+		echo "Error $number $message <br>";
+		include ("views/$number.php");
+	}
+	
 	public static function file($path){
 		$exp = explode('/', $path);
 		if(sizeof($exp) > 1 && file_exists($path))

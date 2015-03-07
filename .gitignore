@@ -1,4 +1,4 @@
-files/*
+utils/upload/files
 assets/js/tinymce/*
 conf.php
 TODO
