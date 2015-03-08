@@ -7,6 +7,9 @@
 	<!--script src="/assets/js/angular.min.js"></script-->
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css" media="screen" />
+	<link rel="icon" 
+      type="image/png" 
+      href="/assets/img/favicon.jpg">
 </head>
 <html>
 <body>
