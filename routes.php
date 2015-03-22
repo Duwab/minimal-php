@@ -16,8 +16,8 @@ if($uri_exp[1] == 'login')
 	Response::$body = "utils/session/login";
 if($uri_exp[1] == 'register')
 	Response::$body = "utils/session/register";
-if($uri_exp[1] == 'logout')
-	Response::$body = "utils/session/logout";
 if($uri_exp[1] == 'recover')
 	Response::$body = "utils/session/recover";
+if($uri_exp[1] == 'settings')
+	Response::$body = "application/settings";
 header("Content-Type: text/html");

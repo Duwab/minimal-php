@@ -39,7 +39,7 @@ sinon si pas session
 	public $id = 0;
 	public $token = false;
 	private $session_lifetime = 0;
-	private $cookie_lifetime = 0;
+	private $cookie_lifetime = 1000000000000000000000;
 	public $profile = array(
 		"name" => "",
 		"email" => "email"
@@ -47,6 +47,8 @@ sinon si pas session
 	
 	public function __construct(){
 		DEBUG('session_start');
+		if(preg_match("/^\/(assets|favicon|file)/", $_SERVER['REQUEST_URI']))
+			return;
 		
 		global $CONF, $DEV_MODE;
 		$this->session_lifetime = $CONF['session_lifetime'];
@@ -54,11 +56,12 @@ sinon si pas session
 
 		ini_set("session.cookie_lifetime", $this->session_lifetime);
 		session_start();
-		
-		if($DEV_MODE && isset($_COOKIE['token']))
-			echo 'token is set ' . $_COOKIE['token'];
 			
-		if(isset($_POST['login_name']))
+		if(preg_match("/^\/logout/", $_SERVER['REQUEST_URI']))
+		{
+			$this->logout();
+			header("Location: /");
+		}else if(isset($_POST['login_name']))
 		{
 			DEBUG('_POST[login_name] is set');
 			$res = DB::query("SELECT * FROM user WHERE name='" . DB::protect($_POST['login_name']) . "' AND password=SHA1('" . DB::protect($_POST['login_password']) . "')");
@@ -92,7 +95,17 @@ sinon si pas session
 		}else if(isset($_COOKIE['token']))
 		{
 			DEBUG('_COOKIE[token] is set');
-			//$res = DB::query("SELECT * FROM user WHERE id='" . DB::protect($_COOKIE['token']) . "'");
+			$res = DB::querySafe("SELECT * FROM user WHERE token=:token AND token_expire > NOW()", array(
+				"token"=>$_COOKIE['token']
+			));
+			$u = $res->fetch();
+			if($u)
+			{
+				$this->login($u);
+			}else
+			{
+				$this->logout();
+			}
 		}else
 			$this->logout();
 	}
@@ -100,7 +113,8 @@ sinon si pas session
 		$_SESSION["user_id"] = $user_info['id'];
 		$this->id = $user_info['id'];
 		$this->profile = $user_info;
-		$this->newToken();
+		if(isset($_COOKIE['token']) || (isset($_POST['cookie_remember']) && $_POST['cookie_remember']))
+			$this->newToken();
 		DEBUG('session login');
 	}
 	public function logout(){
@@ -114,11 +128,36 @@ sinon si pas session
 		DEBUG('session logout');
 	}
 	public function newToken(){
-		setcookie('token', rand ( 0 , 1000000 ), time() + $this->cookie_lifetime);
+		//$this->deleteToken();
+		if(isset($_COOKIE['token']))
+			$token = $_COOKIE['token'];
+		else
+			$token = $this->getAvailableToken();
+		$expire = time() + $this->cookie_lifetime;
+		setcookie('token', $token, $expire, "/");
+		DB::querySafe("UPDATE user SET token=:token, token_expire=FROM_UNIXTIME(:expire) WHERE :id", array(
+			"token" => $token,
+			"expire" => $expire,
+			"id" => $this->id,
+		));
 		//setcookie("TestCookie", $value, time()+3600, "/~rasmus/", "example.com", 1);  >> path, domain, http_only
 	}
+	public function getAvailableToken(){
+		$found = false;
+		
+		while(!$found)
+		{
+			$token = rand ( 0 , 1000000000000000000000 );
+			$select = DB::querySafe("SELECT * FROM user WHERE token=:token", array("token" => $token));
+			if($select->rowCount() == 0)
+				$found = true;
+		}
+		
+		return $token;
+	}
 	public function deleteToken(){
-		unset( $_COOKIE['token'] );
+		setcookie('token', "", 1);
+		//unset( $_COOKIE['token'] );
 	}
 	public function refreshCookie(){
 	}
