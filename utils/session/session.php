@@ -47,7 +47,7 @@ sinon si pas session
 	
 	public function __construct(){
 		DEBUG('session_start');
-		if(preg_match("/^\/(assets|favicon|file)/", $_SERVER['REQUEST_URI']))
+		if(preg_match("/^\/(assets|favicon)/", $_SERVER['REQUEST_URI']))
 			return;
 		
 		global $CONF, $DEV_MODE;
