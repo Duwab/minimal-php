@@ -1,0 +1,1 @@
+ls -lt $(find . -type f \( ! -iname "*js" ! -iname "*gz" ! -iname "*jpg" \))  | head -n50

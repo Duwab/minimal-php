@@ -8,6 +8,9 @@ $PATH = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR;
 
 include('utils/error.php');
 
+$objDateTime = new DateTime('NOW');
+DEBUG("\nhttp " . $objDateTime->format('c') . " - " . $_SERVER['REQUEST_URI'] . " :");
+
 include('conf.php');
 
 include('utils/database.php');

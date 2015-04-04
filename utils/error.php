@@ -16,7 +16,8 @@ $DEBUG_LIST = array();
 function DEBUG($obj){
 	
 	global $DEBUG_ON, $DEBUG_LIST;
-	
+	file_put_contents("minimal.log", in_array(gettype($obj), array("string", "int")) ? $obj : json_encode($obj), FILE_APPEND);
+	file_put_contents("minimal.log", "\n", FILE_APPEND);
 	/* if($DEBUG_ON){
 		array_push($DEBUG_LIST, $obj);
 		try{
