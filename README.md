@@ -5,7 +5,7 @@ Minimal php framework
 
 
 Apache Config:
-
+```
 <VirtualHost XX.XX.XX.XX:80>
         DocumentRoot /home/www/minimal-php
         ServerName minimal.duwab.com
@@ -15,7 +15,7 @@ Apache Config:
                 AllowOverride all
         </Directory>
 </VirtualHost>
-
+```
 
 to create a new branch:
 git clone https://github.com/Duwab/minimal-php.git folder_name;
