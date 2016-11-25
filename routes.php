@@ -1,6 +1,11 @@
 <?php
 
+session_write_close();
 header("Content-Type: text/html");
+if($user->id == 0 && $uri_exp[1] != 'login')
+{
+	header("Location: /login");
+}
 if($uri_exp[1] === NULL || $uri_exp[1] == 'home')
 	Response::$body = "application/home";
 if($uri_exp[1] == 'profile')
@@ -15,8 +20,13 @@ if($uri_exp[1] == 'logout')
 	Response::$body = "utils/session/logout";
 if($uri_exp[1] == 'recover')
 	Response::$body = "utils/session/recover";
+if($uri_exp[1] == 'joke')
+	Response::$body = "application/joke";
+
 if($uri_exp[1] == 'upload')
-	Response::$body = "application/upload";
+	require_once "application/upload.php";
+if($uri_exp[1] == 'share')
+	require_once 'application/share.php';
 if(in_array($uri_exp[1], array('file', 'stream')) && isset($_GET['path']))
 {
 	foreach($CONF['folders'] as $folder)

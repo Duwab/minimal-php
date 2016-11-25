@@ -15,7 +15,16 @@ if($user->id == 0){
 ?>
 </div>
 </header>
-<h1>Nous transférons</h1>
+<!--h1>Nous transfï¿½rons</h1-->
+<!--a href="/?filter=got"><img class="got" src="/assets/img/got.png"/></a-->
+<a href="/joke"><img class="" src="/assets/img/fish.jpg"/></a>
+<style>
+img.got{
+  max-width: 100%;
+  width: 700px;
+  margin: 50px 0 15px;
+}
+</style>
 <br>
 <br>
 <?php
@@ -92,30 +101,31 @@ if($user->id == 0){
 					<th>Size</th>
 					<th>Download</th>
 					<th>Streaming</th>
+					<th>Date</th>
 				</tr>
 			</thead>
 			<tbody>
 		<?php
 			foreach($files as $file)
 			{
-				if($file != '.' && $file != '..')
+				if(isFileToShow($file))
 				{
 					try{
-						$exp = explode('/', $file);
-						$name = preg_replace('/^(.*)\....?.?$/', '$1', $exp[sizeof($exp) - 1]);
-						$name = preg_replace('/(_|\.)/', ' ', $name);
+						$name = nameToDisplay($file);
 						$size = filesize($file);
 						$size = ceil($size/10000000)/100 . ' Go';
-						echo '<tr>';
+						echo '<tr data-date="' . filemtime($file) . '">';
 						echo '<td>' . $name . '</td>';
 						echo '<td>' . $size . '</td>';
-						echo '<td><a href="/file?path=' . urlencode($file) . '"><i class="i_download"></i></a></td>';
+						echo '<td><a href="/share?file=' . hash('sha256', $file) . '"><i class="i_download"></i></a></td>';
+						//echo '<td><a href="/file?path=' . urlencode($file) . '"><i class="i_download"></i></a></td>';
 						$finfo = finfo_open(FILEINFO_MIME_TYPE);
 						$mime_type = finfo_file($finfo, $file);
 						if(preg_match('/(audio|video)/', $mime_type))
 							echo '<td><a href="/stream?path=' . urlencode($file) . '" target="_blank"><i class="i_stream"></i></a></td>';
 						else
 							echo '<td></td>';
+						echo '<td>' . date('d-m-Y', filemtime($file)) . '</td>';
 						echo '</tr>';
 					}catch(Exception $e){
 						echo '<tr>unable to read </tr>';
@@ -126,7 +136,105 @@ if($user->id == 0){
 			?>
 			</tbody>
 		</table>
+		
+		<script>
+			$(document).on('ready', function(){
+				'use strict';
+				
+				$('tr').each(sort);
+				
+				insertDelimiters();
+				
+				function sort(i, tr){
+					var el = $(tr);
+					var dateEl = parseInt(el.attr('data-date'));
+					if(dateEl)
+					{
+						$('tr').each(function(){
+							var dateCompare = parseInt($(this).attr('data-date'));
+							if(dateCompare)
+							{
+								
+								if(dateEl > dateCompare)
+								{
+									$(this).before(el);
+									return false;
+								}
+							}
+						});
+					}
+				};
+				
+				function insertDelimiters(){
+					var thisWeekDone = false;
+					var lastWeekTime = ((new Date()).getTime())/1000 - 3600*24*7;
+					$('tr[data-date]').each(function(i, el){
+						el = $(el);
+						console.log(parseInt(el.attr('data-date')), lastWeekTime);
+						if(!thisWeekDone && parseInt(el.attr('data-date')) > lastWeekTime)
+						{
+							el.before('<tr class="delimiter"><td>Cette semaine</td></tr>');
+							thisWeekDone = true;
+						}
+						if(thisWeekDone && parseInt(el.attr('data-date')) <= lastWeekTime)
+						{
+							el.before('<tr class="delimiter"><td>Plus ancien</td></tr>');
+							return false;
+						}
+					});
+				}
+			});
+		</script>
+		<style>
+			th{
+				font-size: 18px
+			}
+			.delimiter td{
+				text-align: left;
+				font-size: 16px;
+				font-weight: bold;
+				padding: 30px 0 12px;
+			}
+		</style>
 		<?php
 	}
+}
+
+function isFileToShow($file)
+{
+	if($file == '.' && $file == '..')
+		return false;
+	if(isset($_GET['filter']) && $_GET['filter'] == "all")
+	{
+		return true;
+	}
+	if(preg_match("/\.(jpg|png|txt|nfo|html)$/", $file))
+		return false;
+	else if(isset($_GET['filter']) && $_GET['filter'] == "got")
+	{
+		if(!preg_match("/thrones/i", $file))
+			return false;
+	}else if(isset($_GET['filter']) && preg_match("/^(\w|_|-)+$/", $_GET['filter']) && !preg_match("/" . $_GET['filter'] . "/i", $file))
+		return false;
+	return true;
+}
+
+function nameToDisplay($file)
+{
+	$providerBrands = array("yify", "\[.*cpasbien.*\]", "killers", "asap");
+	$specifications = array(" ?x264");
+	
+	$exp = explode('/', $file);
+	$name = $exp[sizeof($exp) - 1];
+	if(!preg_match("/srt$/", $file))
+		$name = preg_replace('/^(.*)\....?.?$/', '$1', $name);
+	else
+		$name = preg_replace('/\.srt$/', ' [subtitle]', $name);
+	
+	$name = preg_replace("/(" . implode("|", $providerBrands) . ")/i", "", $name);
+	$name = preg_replace("/(" . implode("|", $specifications) . ")/i", "", $name);
+	
+	$name = preg_replace('/(_|\.|-)/', ' ', $name);
+	return $name;
 }
 ?> 

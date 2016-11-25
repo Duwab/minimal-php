@@ -1,4 +1,5 @@
 <h1>Profile</h1>
+<a href="/" style="position: absolute;top: 3px;right: 10px;">home</a>
 
 You are actually logged as : 
 <?php
@@ -18,6 +19,24 @@ You are actually logged as :
 	</div>
 </div>
 
+<style>
+	.progress_outer{
+		height: 30px;
+		background: grey;
+		position: relative;
+		width: 200px;
+		max-width: 100%;
+		margin: auto;
+	}
+	.progress{
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background: yellow;
+	}
+</style>
+
 <script>
 $(document).on('ready', function(){
 	var _submit = document.getElementById('_submit'), 
@@ -29,7 +48,7 @@ $(document).on('ready', function(){
 		if(_file.files.length === 0){
 			return;
 		}
-
+		$(_submit).hide();
 		var data = new FormData();
 		data.append('SelectedFile', _file.files[0]);
 
@@ -45,6 +64,8 @@ $(document).on('ready', function(){
 					};
 				}
 				console.log(resp.status + ': ' + resp.data);
+				$(".container").after(resp.data + "<br>");
+				$(_submit).show();
 			}
 		};
 
