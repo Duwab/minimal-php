@@ -27,6 +27,8 @@ if($uri_exp[1] == 'upload')
 	require_once "application/upload.php";
 if($uri_exp[1] == 'share')
 	require_once 'application/share.php';
+if($uri_exp[1] == 'delete')
+	require_once 'application/delete.php';
 if(in_array($uri_exp[1], array('file', 'stream')) && isset($_GET['path']))
 {
 	foreach($CONF['folders'] as $folder)

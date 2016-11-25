@@ -41,8 +41,8 @@ $encode = json_encode(scandir("/tmp")[3]);
 $tmp = $_FILES['SelectedFile']['tmp_name'];
 $new = $_FILES['SelectedFile']['name'];
 // Upload file
-if(!move_uploaded_file($_FILES['SelectedFile']['tmp_name'], '/home/www/transfer/files/' . $user->profile['name'] . '/' . $_FILES['SelectedFile']['name'])){
-// if(!rename($_FILES['SelectedFile']['tmp_name'], '/home/www/transfer/files/upload/' . $_FILES['SelectedFile']['name'])){
+if(!move_uploaded_file($_FILES['SelectedFile']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].'/files/' . $user->profile['name'] . '/' . $_FILES['SelectedFile']['name'])){
+// if(!rename($_FILES['SelectedFile']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].'/files/upload/' . $_FILES['SelectedFile']['name'])){
     outputJSON('Error uploading file - check destination is writeable.' . $encode);
 }
 

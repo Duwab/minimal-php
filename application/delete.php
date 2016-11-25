@@ -49,7 +49,9 @@ while(isset($files[$i])){
 	//echo $files[$i] . ' => ' . hash('sha256', $files[$i]) . '<br>';
 	if(hash('sha256', $files[$i]) == $fileHash)
 	{
-		Response::file($files[$i]);
+                echo 'delete ';
+		//Response::file($files[$i]);
+		echo unlink($files[$i]) ? "success" : "failure";
 		die();
 	}
 	$i++;

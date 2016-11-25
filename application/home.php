@@ -101,6 +101,7 @@ if($user->id == 0){
 					<th>Size</th>
 					<th>Download</th>
 					<th>Streaming</th>
+                                        <?php if($user->id == 1) { echo "<th>Delete</th>"; }?>
 					<th>Date</th>
 				</tr>
 			</thead>
@@ -125,6 +126,9 @@ if($user->id == 0){
 							echo '<td><a href="/stream?path=' . urlencode($file) . '" target="_blank"><i class="i_stream"></i></a></td>';
 						else
 							echo '<td></td>';
+                                                if($user->id == 1) {
+						    echo '<td><a href="/delete?file=' . hash('sha256', $file) . '" target="_blank"><i class="i_delete"></i></a></td>';
+                                                }
 						echo '<td>' . date('d-m-Y', filemtime($file)) . '</td>';
 						echo '</tr>';
 					}catch(Exception $e){
