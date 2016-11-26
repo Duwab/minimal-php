@@ -10,6 +10,9 @@
 	<script type="text/javascript" src="/assets/jplayer/js/jplayer.playlist.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css" media="screen" />
 	<script src="/assets/js/script.js"></script>
+	<link rel="icon" 
+      type="image/png" 
+      href="http:/assets/img/logo_mini.png">
 </head>
 <body>
 <header>

@@ -6,17 +6,21 @@ foreach ($directories as $dname)
 {
 	if (!in_array($dname,array(".",".."))) 
 	{
-		echo $dname;
-		$playlist_dir = scandir("assets/mp3/" . $dname); 
+		$playlist_dir = dirToArray("assets/mp3/" . $dname); 
 		$arr = array();
 		foreach ($playlist_dir as $key => $value) 
 		{
 			if (!in_array($value,array(".",".."))) 
 			{
-				$arr[] = array(
-					"mp3" => preg_replace("/'/", "%27", "/assets/mp3/" . $dname . "/" . $value),
-					"title" => preg_replace("/\.mp3/", "", $value)
-				);
+				$title = explode("/", $value);
+				$title = $title[sizeof($title)-1];
+				if(preg_match("/\.mp3$/", $title))
+				{
+					$arr[] = array(
+						"mp3" => preg_replace("/'/", "%27", "/assets/mp3/" . $dname . "/" . $value),
+						"title" => preg_replace("/\.mp3/", "", $title)
+					);
+				}
 			}
 		}
 		$playlists[$dname] = $arr;
@@ -64,10 +68,18 @@ foreach ($directories as $dname)
 	});
 	
 	var playlists = JSON.parse('<?php echo preg_replace("/'/", "",json_encode($playlists));?>');
+	var has_current_started = false;
+	var is_playing = false;
 	for(var pname in playlists)
 	{
 		var btn = $('<div class="playlist_folder">').append('<img src="/assets/img/logo.png">').append('<span>' + pname + '</span>').data('pname', pname).on('click', function(){
-			console.log($(this).data('pname'));
+			if($(this).hasClass('current_playlist'))
+				return;
+			if(has_current_started && !confirm('This gonna stop tha current playlist, bitch!'))
+				return;
+			has_current_started = false;
+			$('.playlist_folder').removeClass('current_playlist');
+			$(this).addClass('current_playlist');
 			myPlaylist.setPlaylist(playlists[$(this).data('pname')]);
 		});
 		$('.container')[pname == 'Playlist' ? 'prepend' : 'append'](btn);
@@ -81,15 +93,26 @@ foreach ($directories as $dname)
 	}); */
 	$('#jquery_jplayer_N').bind($.jPlayer.event.play, function(){
 		$('.header_dancing').show();
+		has_current_started = true;
+		is_playing = true;
+		window.onbeforeunload = function() {
+			if(is_playing)
+				return "You're playing stuff";
+		}
 	});
 	$('#jquery_jplayer_N').bind($.jPlayer.event.pause, function(){
 		$('.header_dancing').hide();
+		is_playing = false;
+		window.onbeforeunload = null;
 	});
 	var dance_id = 1;
 	var dance_names = ['empty.png', 'michael-jackson.gif', 'belly-dance.gif', 'smiley.gif', 'monkey.gif', 'penguin.gif'];
 	$('.header_dancing').on('click', function(){
 		$(this).attr('src', '/assets/img/dancing/' + dance_names[dance_id++%dance_names.length]);
 	});
+	
+	
+
  });
 </script>
 <div id="jquery_jplayer_N" class="jp-jplayer"></div>
@@ -134,3 +157,30 @@ foreach ($directories as $dname)
 
 <div class="container">
 </div>
+
+
+<?php
+
+function dirToArray($dir, $prefix = '') { 
+   
+   $result = array(); 
+
+   $cdir = scandir($dir); 
+   foreach ($cdir as $key => $value) 
+   { 
+      if (!in_array($value,array(".",".."))) 
+      { 
+         if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) 
+         { 
+            // $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR );
+			$result = array_merge($result, dirToArray($dir . DIRECTORY_SEPARATOR . $value, $prefix . $value . DIRECTORY_SEPARATOR ));
+         } 
+         else 
+         { 
+            $result[] = $prefix . $value; 
+         } 
+      } 
+   } 
+   
+   return $result; 
+}
